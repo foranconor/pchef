@@ -33,9 +33,9 @@ function sample(n, i) {
   setTimeout(() => {
     clearInterval(s);
     const mv = a.reduce((p, q) => p + q, 0) / a.length;
-    console.log(mv + ' mv');
+    console.log(mv.toFixed(2) + ' mv');
     t = transfer(mv);
-    console.log(t + '\u00B0c');
+    console.log(t.toFixed(2) + ' \u00B0c');
   }, i * n);
 }
 
