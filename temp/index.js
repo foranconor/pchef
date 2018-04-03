@@ -35,8 +35,7 @@ function sample(n, i) {
     const mv = a.reduce((p, q) => p + q, 0) / a.length;
     console.log(mv.toFixed(2) + ' mv');
     t = transfer(mv);
-    console.log(t.toFixed(2) + '
-    \u00B0c');
+    console.log(t.toFixed(2) + ' \u00B0c');
   }, i * n);
 }
 
@@ -47,7 +46,6 @@ function transfer(mv) {
 }
 
 function zero() {
-  sample(100, 100);
   offset = offset - t;
 }
 
