@@ -9,11 +9,14 @@ const m = 10.888;
 const c = 0.00347;
 const b = 1777.3;
 
-const offset = 33;
+const offset = 34;
 
 let buf = Buffer.from('c00000', 'hex');
 
-// take
+let t = 0;
+
+// take n samples at an interval of i milliseconds
+// report the average
 function sample(n, i) {
   const a = [];
   const s = setInterval(() => {
@@ -31,9 +34,20 @@ function sample(n, i) {
     clearInterval(s);
     const mv = a.reduce((p, q) => p + q, 0) / a.length;
     console.log(mv + ' mv');
-    const t = (m - Math.sqrt((-m)*(-m) + 4 * c * (b - mv))) / 2 * (-c) + offset;
-    console.log(t + 'degrees');
+    t = transfer(mv);
+    console.log(t + '\u00B0c');
   }, i * n);
 }
 
 const u = setInterval(sample, 1000, 50, 30);
+
+function transfer(mv) {
+  return (m - Math.sqrt((-m)*(-m) + 4 * c * (b - mv))) / (2 * (-c)) + offset;
+}
+
+function zero() {
+  sample(100, 100);
+  offset = offset - t;
+}
+
+setTimeout(zero, 45000);
