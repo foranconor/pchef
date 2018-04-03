@@ -9,7 +9,7 @@ const m = 10.888;
 const c = 0.00347;
 const b = 1777.3;
 
-const offset = 34;
+let offset = 34;
 
 let buf = Buffer.from('c00000', 'hex');
 
@@ -35,7 +35,8 @@ function sample(n, i) {
     const mv = a.reduce((p, q) => p + q, 0) / a.length;
     console.log(mv.toFixed(2) + ' mv');
     t = transfer(mv);
-    console.log(t.toFixed(2) + ' \u00B0c');
+    console.log(t.toFixed(2) + '
+    \u00B0c');
   }, i * n);
 }
 
