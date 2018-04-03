@@ -1,0 +1,14 @@
+{
+  "name": "temp-logger",
+  "version": "1.0.0",
+  "description": "Log temerature by reading an analog voltage from a ADC via SPI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "pi-spi": "^1.0.2"
+  }
+}

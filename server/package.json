@@ -1,0 +1,17 @@
+{
+  "name": "pchef-server",
+  "version": "1.0.0",
+  "description": "application backend for pchef",
+  "main": "pchef.js",
+  "scripts": {
+    "start": "node pchef.js"
+  },
+  "author": "conor foran",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "express": "^4.16.2",
+    "moment": "^2.21.0",
+    "mongodb": "^3.0.4",
+    "winston": "^3.0.0-rc2"
+  }
+}
