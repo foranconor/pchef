@@ -63,7 +63,7 @@ function sample(n, i) {
         'Content-Type': 'application/json'
       }
     }).then((v1) => console.log('logging')).catch(err => console.error(err));
-    
+
   }, i * n);
 }
 
@@ -75,6 +75,7 @@ function transfer(mv) {
 
 function zero() {
   offset = offset - t;
+  console.log('offset = ' + offset);
 }
 
 //setTimeout(zero, 45000);
