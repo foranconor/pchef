@@ -12,5 +12,8 @@
     "moment": "^2.22.0",
     "node-fetch": "^2.1.2",
     "pi-spi": "^1.0.2"
+  },
+  "devDependencies": {
+    "pm2": "^2.10.2"
   }
 }
