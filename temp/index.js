@@ -12,6 +12,9 @@ let offset = 30 - 3.9 + 3 - 0.1;
 let a0 = Buffer.from('c00000', 'hex');
 let a1 = Buffer.from('c80000', 'hex');
 
+let set0 = 37.5;
+let set1 = 37.5;
+let i1 = 0;
 
 stream.once('open', fd => {
   setInterval(() => {
@@ -34,13 +37,17 @@ stream.once('open', fd => {
             val = val << 1;
             mv = val / 4096.0 * 3300.0;
             s1 = transfer(mv);
-            stream.write(now + ' ' + s0 + ' ' + s1 + '\n');
+            // have plant input, s0 and s1
+            // control s1
+            let error1 = set1 - s1;
+            let i1 = i1 + error;
+            stream.write(now + ' ' + s1 + ' ' + error1 + ' ' + i1 + ' ' + (error1 + i1) + '\n');
           }
         });
       }
 
     });
-  }, 10);
+  }, 1000);
 });
 
 // temp sensor constants
