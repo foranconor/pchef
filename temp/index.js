@@ -20,6 +20,10 @@ let i1 = 0;
 let kp = 1.0;
 let ki = 0.5;
 
+const outPin = 36;
+
+rpio.open(outPin, rpio.OUTPUT, rpio.LOW);
+
 stream.once('open', fd => {
   setInterval(() => {
     const now = moment().valueOf();
@@ -48,7 +52,7 @@ stream.once('open', fd => {
             // cap i1
             if (i1 < 0) i1 = 0;
             if (i1 > 100) i1 = 100;
-            let respopnse = kp * error1 + ki * i1;
+            let response = kp * error1 + ki * i1;
             let power = (response / 2) / 100;
             let output = now + ' ' + set1 + ' ' + s1 + ' ' + (error1 * kp) + ' ' + (i1 * ki) + ' ' + response + ' ' + power + '\n';
             stream.write(output);
