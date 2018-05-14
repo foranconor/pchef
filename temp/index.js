@@ -13,7 +13,7 @@ let a0 = Buffer.from('c00000', 'hex');
 let a1 = Buffer.from('c80000', 'hex');
 
 let set0 = 37.5;
-let set1 = 37.5;
+let set1 = 34;
 let i1 = 0;
 
 stream.once('open', fd => {
@@ -33,15 +33,17 @@ stream.once('open', fd => {
         spi.transfer(a1, a1.length, (err1, res1) => {
           if (err1) console.error(err1);
           else {
-            val = parseInt(res1.toString('hex'), 16) >> 5;
-            val = val << 1;
+            val = parseInt(res1.toString('hex'), 16) >> 6;
+            val = val << 2;
             mv = val / 4096.0 * 3300.0;
             s1 = transfer(mv);
             // have plant input, s0 and s1
             // control s1
             let error1 = set1 - s1;
-            let i1 = i1 + error;
-            stream.write(now + ' ' + s1 + ' ' + error1 + ' ' + i1 + ' ' + (error1 + i1) + '\n');
+            i1 = i1 + error1;
+            // cap i1
+            if (i1 < 0) i1 = 0;
+            stream.write(now + ' ' + set1 + ' ' + s1 + ' ' + error1 + ' ' + i1 + ' ' + (error1 + i1) + '\n');
           }
         });
       }
