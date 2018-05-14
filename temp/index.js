@@ -25,16 +25,16 @@ stream.once('open', fd => {
       else {
         val = parseInt(res0.toString('hex'), 16) >> 5;
         val = val << 1;
-        mv = val / 4096 * 3300;
+        mv = val / 4096.0 * 3300.0;
         s0 = transfer(mv);
         spi.transfer(a1, a1.length, (err1, res1) => {
           if (err1) console.error(err1);
           else {
             val = parseInt(res1.toString('hex'), 16) >> 5;
             val = val << 1;
-            mv = val / 4096 * 3300;
+            mv = val / 4096.0 * 3300.0;
             s1 = transfer(mv);
-            stream.write(now + ' ' + s0.toFixed(4) + ' ' + s1.toFixed(4) + '\n');
+            stream.write(now + ' ' + s0 + ' ' + s1 + '\n');
           }
         });
       }
