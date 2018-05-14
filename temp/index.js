@@ -1,3 +1,4 @@
+const rpio = require('rpio');
 const moment = require('moment');
 const fs = require('fs');
 const start = moment().toISOString();
@@ -46,10 +47,16 @@ stream.once('open', fd => {
             i1 = i1 + error1;
             // cap i1
             if (i1 < 0) i1 = 0;
-            if (il > 100) il = 100;
-            let output = now + ' ' + set1 + ' ' + s1 + ' ' + (error1 * kp) + ' ' + (i1 * ki) + ' ' + (kp * error1 + ki * i1) + '\n';
+            if (i1 > 100) i1 = 100;
+            let respopnse = kp * error1 + ki * i1;
+            let power = (response / 2) / 100;
+            let output = now + ' ' + set1 + ' ' + s1 + ' ' + (error1 * kp) + ' ' + (i1 * ki) + ' ' + response + ' ' + power + '\n';
             stream.write(output);
             console.log(output);
+            if (response > 0) {
+              rpio.write(outPin, rpio.HIGH);
+              setTimeout(() => rpio.write(outPin, rpio.LOW), 1000 * power);
+            }
           }
         });
       }
