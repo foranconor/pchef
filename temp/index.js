@@ -40,7 +40,7 @@ stream.once('open', fd => {
       }
 
     });
-  }, 100);
+  }, 10);
 });
 
 // temp sensor constants
