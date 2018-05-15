@@ -2,7 +2,7 @@ const rpio = require('rpio');
 const moment = require('moment');
 const fs = require('fs');
 const start = moment().toISOString();
-const stream = fs.createWriteStream('test-2probe-' + start + '.dat');
+const stream = fs.createWriteStream('test-pid-' + start + '.dat');
 const SPI = require('pi-spi');
 const spi = SPI.initialize('/dev/spidev0.0');
 
@@ -14,7 +14,7 @@ let a0 = Buffer.from('c00000', 'hex');
 let a1 = Buffer.from('c80000', 'hex');
 
 let set0 = 37.5;
-let set1 = 40;
+let set1 = 0;
 let i1 = 0;
 
 let kp = 1.0;
@@ -41,8 +41,8 @@ stream.once('open', fd => {
         spi.transfer(a1, a1.length, (err1, res1) => {
           if (err1) console.error(err1);
           else {
-            val = parseInt(res1.toString('hex'), 16) >> 6;
-            val = val << 2;
+            val = parseInt(res1.toString('hex'), 16) >> 5;
+            val = val << 1;
             mv = val / 4096.0 * 3300.0;
             s1 = transfer(mv);
             // have plant input, s0 and s1
@@ -53,8 +53,8 @@ stream.once('open', fd => {
             if (i1 < 0) i1 = 0;
             if (i1 > 100) i1 = 100;
             let response = kp * error1 + ki * i1;
-            let power = (response / 2) / 100;
-            let output = now + ' ' + set1 + ' ' + s1 + ' ' + (error1 * kp) + ' ' + (i1 * ki) + ' ' + response + ' ' + power + '\n';
+            let power = response / 100;
+            let output = now + ' ' + set1 + ' ' + s1 + ' ' + (error1 * kp) + ' ' + (i1 * ki) + ' ' + response + ' ' + power + ' ' + s0 + '\n';
             stream.write(output);
             console.log(output);
             if (response > 0) {
@@ -68,6 +68,25 @@ stream.once('open', fd => {
     });
   }, 1000);
 });
+
+setTimeout(() => {
+  const ramp = setInterval(() => {
+    set1 = set1 + 0.005;
+    if (set1 > 50) {
+      set1 = 50;
+      clearInterval(ramp);
+      setTimeout(() => {
+        const slope = setInterval(() => {
+          set1 = set1 - 0.5;
+          if (set1 < 42) {
+            set1 = 42;
+            clearInterval(slope);
+          }
+        }, 120000);
+      }, 5 * 60000);
+    }
+  }, 100)
+}, 5000)
 
 // temp sensor constants
 const m = 10.888;
