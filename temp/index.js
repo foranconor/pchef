@@ -17,8 +17,8 @@ let set0 = 37.5;
 let set1 = 0;
 let i1 = 0;
 
-let kp = 1.0;
-let ki = 0.5;
+let kp = 3.0;
+let ki = 1;
 
 const outPin = 36;
 
@@ -53,6 +53,7 @@ stream.once('open', fd => {
             if (i1 < 0) i1 = 0;
             if (i1 > 100) i1 = 100;
             let response = kp * error1 + ki * i1;
+            if (response > 100) response = 100;
             let power = response / 100;
             let output = now + ' ' + set1 + ' ' + s1 + ' ' + (error1 * kp) + ' ' + (i1 * ki) + ' ' + response + ' ' + power + ' ' + s0 + '\n';
             stream.write(output);
